@@ -78,3 +78,6 @@ debian/files
 
 # tensorflow models
 ckpt/
+
+# something else
+*.pid
