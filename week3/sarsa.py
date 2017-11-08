@@ -25,8 +25,8 @@ from collections import defaultdict
 class SarsaAgent():
   """
     Classical SARSA agent.
-    
-    The two main methods are 
+
+    The two main methods are
     - self.getAction(state) - returns agent's action in that state
     - self.update(state,action,reward,nextState,nextAction) - returns agent's next action
 
@@ -60,15 +60,15 @@ class SarsaAgent():
 
   def getPolicy(self, state):
     """
-      Compute the best action to take in a state. 
-      
+      Compute the best action to take in a state.
+
     """
     possibleActions = self.getLegalActions(state)
 
     #If there are no legal actions, return None
     if len(possibleActions) == 0:
     	return None
-    
+
     best_action = None
 
     "*** this code works exactly as Q-learning ***"
@@ -77,8 +77,8 @@ class SarsaAgent():
 
   def getAction(self, state):
     """
-      Compute the action to take in the current state, including exploration.  
-      
+      Compute the action to take in the current state, including exploration.
+
       With probability self.epsilon, we should take a random action.
       otherwise - the best policy action (self.getPolicy).
 
@@ -86,11 +86,11 @@ class SarsaAgent():
       HINT: To pick randomly from a list, use random.choice(list)
 
     """
-    
+
     # Pick Action
     possibleActions = self.getLegalActions(state)
     action = None
-    
+
     #If there are no legal actions, return None
     if len(possibleActions) == 0:
     	return None
@@ -117,15 +117,13 @@ class SarsaAgent():
     #agent parameters
     gamma = self.discount
     learning_rate = self.alpha
-    
-    "*** YOUR CODE HERE ***"    
-    reference_qvalue = <Your Code Here>
-    
+
+    "*** YOUR CODE HERE ***"
+    reference_qvalue = reward + gamma*self.getQValue(nextState,nextAction)
+
     updated_qvalue = (1-learning_rate) * self.getQValue(state,action) + learning_rate * reference_qvalue
-    
+
     self.setQValue(state,action,updated_qvalue)
 
 
 #---------------------#end of your code#---------------------#
-
-

@@ -26,8 +26,8 @@ from collections import defaultdict
 class EVSarsaAgent():
   """
     Expected Value SARSA Agent.
-    
-    The two main methods are 
+
+    The two main methods are
     - self.getAction(state) - returns agent's action in that state
     - self.update(state,action,nextState,reward) - returns agent's next action
 
@@ -44,7 +44,7 @@ class EVSarsaAgent():
     self.alpha = alpha
     self.epsilon = epsilon
     self.discount = discount
-    
+
   def getQValue(self, state, action):
     """
       Returns Q(state,action)
@@ -65,7 +65,7 @@ class EVSarsaAgent():
       This should be equal to expected action q-value over action probabilities defined
       by epsilon-greedy policy with current epsilon.
     """
-    
+
     possibleActions = self.getLegalActions(state)
     #If there are no legal actions, return 0.0
     if len(possibleActions) == 0:
@@ -73,21 +73,23 @@ class EVSarsaAgent():
 
     #You'll need this to estimate action probabilities
     epsilon = self.epsilon
-    
-    value = <Your Code Here>
+    m = len(possibleActions)
+    vals = [self.getQValue(state, a) for a in possibleActions]
+    value = (1 - epsilon)*max(vals) + epsilon*sum(vals)/m
+
     return value
-    
+
   def getPolicy(self, state):
     """
-      Compute the best action to take in a state. 
-      
+      Compute the best action to take in a state.
+
     """
     possibleActions = self.getLegalActions(state)
 
     #If there are no legal actions, return None
     if len(possibleActions) == 0:
     	return None
-    
+
     best_action = None
 
     best_action = possibleActions[np.argmax([self.getQValue(state, a) for a in possibleActions])]
@@ -95,8 +97,8 @@ class EVSarsaAgent():
 
   def getAction(self, state):
     """
-      Compute the action to take in the current state, including exploration.  
-      
+      Compute the action to take in the current state, including exploration.
+
       With probability self.epsilon, we should take a random action.
       otherwise - the best policy action (self.getPolicy).
 
@@ -104,11 +106,11 @@ class EVSarsaAgent():
       HINT: To pick randomly from a list, use random.choice(list)
 
     """
-    
+
     # Pick Action
     possibleActions = self.getLegalActions(state)
     action = None
-    
+
     #If there are no legal actions, return None
     if len(possibleActions) == 0:
     	return None
@@ -134,12 +136,10 @@ class EVSarsaAgent():
     #agent parameters
     gamma = self.discount
     learning_rate = self.alpha
-    
+
     reference_qvalue = reward + gamma * self.getValue(nextState)
     updated_qvalue = (1-learning_rate) * self.getQValue(state,action) + learning_rate * reference_qvalue
     self.setQValue(state,action,updated_qvalue)
 
 
 #---------------------#end of your code#---------------------#
-
-
